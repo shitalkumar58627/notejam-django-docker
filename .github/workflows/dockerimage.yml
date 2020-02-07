@@ -12,6 +12,7 @@ jobs:
       - name: Install awscli
         run: pip install --upgrade pip awscli
       - name: Build
+        id: vars
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
@@ -20,14 +21,8 @@ jobs:
         run: |
           # aws login
           eval $(aws ecr get-login --region ${AWS_DEFAULT_REGION} --no-include-email)
-      - name: Get the version
-        id: vars
-        run: echo ::set-output name=tag::$(echo ${GITHUB_REF:10})
-      - name: Build the tagged Docker image
-        run: docker build . --file Dockerfile --tag ${AWS_REGISTRY_URL}/notejam-django:${{steps.vars.outputs.tag}}
-      - name: Push the tagged Docker image
-        run: docker push ${AWS_REGISTRY_URL}/notejam-django:${{steps.vars.outputs.tag}}
-      - name: Build the latest Docker image
-        run: docker build . --file Dockerfile --tag ${AWS_REGISTRY_URL}/notejam-django:latest
-      - name: Push the latest Docker image
-        run: docker push ${AWS_REGISTRY_URL}/notejam-django:latest
+          echo ::set-output name=tag::$(echo ${GITHUB_REF:10})
+          docker build . --file Dockerfile --tag ${AWS_REGISTRY_URL}/notejam-django:${{steps.vars.outputs.tag}}
+          docker push ${AWS_REGISTRY_URL}/notejam-django:${{steps.vars.outputs.tag}}
+          docker build . --file Dockerfile --tag ${AWS_REGISTRY_URL}/notejam-django:latest
+          docker push ${AWS_REGISTRY_URL}/notejam-django:latest
