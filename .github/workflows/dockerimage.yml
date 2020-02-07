@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
-      - name: Login to DockerHub Registry
+      - name: Login to Quay.io Registry
         run: echo ${{ secrets.QUAYIO_PASSWORD }} | docker login -u ${{ secrets.QUAYIO_USERNAME }} --password-stdin quay.io
       - name: Get the version
         id: vars
@@ -17,7 +17,7 @@ jobs:
       - name: Build the tagged Docker image
         run: docker build . --file Dockerfile --tag arazx/notejam-django:${{steps.vars.outputs.tag}}
       - name: Push the tagged Docker image
-        run: docker push arazx/notejam-django:$
+        run: docker push arazx/notejam-django:${{steps.vars.outputs.tag}}
       - name: Build the latest Docker image
         run: docker build . --file Dockerfile --tag arazx/notejam-django:latest
       - name: Push the latest Docker image
