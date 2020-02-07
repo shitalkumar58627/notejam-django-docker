@@ -22,7 +22,7 @@ jobs:
           # aws login
           eval $(aws ecr get-login --region ${AWS_DEFAULT_REGION} --no-include-email)
           echo ::set-output name=tag::$(echo ${GITHUB_REF:10})
-          docker build . --file Dockerfile --tag ${AWS_REGISTRY_URL}/notejam-django:${{steps.vars.outputs.tag}}
+          docker build -t ${AWS_REGISTRY_URL}/notejam-django:${{steps.vars.outputs.tag}} .
           docker push ${AWS_REGISTRY_URL}/notejam-django:${{steps.vars.outputs.tag}}
-          docker build . --file Dockerfile --tag ${AWS_REGISTRY_URL}/notejam-django:latest
+          docker build -t ${AWS_REGISTRY_URL}/notejam-django:latest .
           docker push ${AWS_REGISTRY_URL}/notejam-django:latest
