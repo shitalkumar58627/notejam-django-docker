@@ -24,8 +24,7 @@ jobs:
           ECR_REPOSITORY: ${{ secrets.AWS_REGISTRY_REPO }}
           IMAGE_TAG: ${{ github.sha }}
         run: | 
-          TAG=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
-          docker build . --file Dockerfile $TAG
+          docker build .
           #docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
       - name: Logout of Amazon ECR
         if: always()
