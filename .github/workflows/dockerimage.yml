@@ -17,8 +17,8 @@ jobs:
       - name: Build the tagged Docker image
         run: docker build . --file Dockerfile --tag arazx/notejam-django:${{steps.vars.outputs.tag}}
       - name: Push the tagged Docker image
-        run: docker push arazx/notejam-django:${{steps.vars.outputs.tag}}
+        run: docker push quay.io/arazx/notejam-django:${{steps.vars.outputs.tag}}
       - name: Build the latest Docker image
         run: docker build . --file Dockerfile --tag arazx/notejam-django:latest
       - name: Push the latest Docker image
-        run: docker push arazx/notejam-django:latest
+        run: docker push quay.io/arazx/notejam-django:latest
