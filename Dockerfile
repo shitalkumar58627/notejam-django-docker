@@ -1,6 +1,6 @@
 FROM python:2.7-stretch
 
-LABEL authors="Hossein Salahi"
+LABEL authors="Shitalkumar Dhawale"
 
 #Environment variables
 ENV PYTHONUNBUFFERED 1
